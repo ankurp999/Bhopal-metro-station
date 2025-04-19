@@ -5,40 +5,40 @@
 using namespace std;
 void dijikstras(int src,vector<vector<pair<int , int> > > &gh ,vector<string> &stationNames)
 {
-  int V = gh.size();  // Number of vertices
-    vector<int> dist(V, INT_MAX);  // Distance from src to each node
-    set<pair<int, int>> s;  // Set to store (distance, vertex)
+  int V = gh.size(); 
+    vector<int> dist(V, INT_MAX);  
+    set<pair<int, int>> s;  
     
-    // Initialize source vertex distance and add to the set
+   
     dist[src] = 0;
     s.insert({0, src});
     
     while (!s.empty()) {
-        // Extract the vertex with the smallest distance
+        
         pair<int, int> p = *(s.begin());
         s.erase(s.begin());
         int node = p.second;
         int nodeDist = p.first;
         
-        // Relaxation step: Check neighbors of the current node
+       
         for (auto &neighbor : gh[node]) {
             int adjNode = neighbor.first;
             int weight = neighbor.second;
             
-            // If shorter path is found
+          
             if (nodeDist + weight < dist[adjNode]) {
-                // Remove if already in set
+               
                 if (dist[adjNode] != INT_MAX) {
                     s.erase({dist[adjNode], adjNode});
                 }
                 
-                // Update distance and insert the new pair in the set
+                
                 dist[adjNode] = nodeDist + weight;
                 s.insert({dist[adjNode], adjNode});
             }
         }
     } 
-    // Print the distances from the source
+    
     cout << "Station Code\t\t\t\t\t\t\tDistance from "<<stationNames[src]<< endl;
     for (int i = 0; i < V; i++) {
         cout<<i<<". "<<stationNames[i]<<"\t\t\t\t\t\t\t"<<dist[i]<< endl;
